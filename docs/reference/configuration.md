@@ -816,11 +816,36 @@ OpenCode also has native TUI Attention notifications in `tui.json`. Use either n
 
 ### MCPs
 
-Built-in MCPs (enabled by default): `websearch` (Exa AI), `context7` (library docs), `grep_app` (GitHub code search), and `lsp` (local language-server tools). Structural search and rewrite is provided by the `ast-grep` skill instead of a built-in MCP.
+Built-in MCPs (enabled by default): `websearch` (Exa AI), `context7` (library docs), `grep_app` (GitHub code search), `lsp` (local language-server tools), and `codegraph` (indexed project structure and call paths). Structural search and rewrite is also available through the `ast-grep` skill.
 
 ```json
-{ "disabled_mcps": ["websearch", "context7", "grep_app", "lsp"] }
+{ "disabled_mcps": ["websearch", "context7", "grep_app", "lsp", "codegraph"] }
 ```
+
+### Codegraph
+
+The OpenCode edition provisions the pinned Codegraph runtime on first use, registers it globally as a local MCP, and initializes or synchronizes the current project when a session starts. Its tools are therefore available to every OpenCode agent unless the MCP is disabled.
+
+Configure it inside the `opencode` block of `omo.jsonc`:
+
+```jsonc
+{
+  "opencode": {
+    "codegraph": {
+      "enabled": true,
+      "auto_init": true,
+      "auto_provision": true,
+      "daemon": true,
+      "excluded_roots": [],
+      // "install_dir": "/absolute/custom/install/path",
+      // "telemetry": false,
+      // "watch_debounce_ms": 250,
+    },
+  },
+}
+```
+
+Set `auto_init` to `false` to require an existing `.codegraph` index, `auto_provision` to `false` to require `codegraph` on `PATH`, or `enabled` to `false` to omit the MCP entirely. `excluded_roots` prevents bootstrap and registration for projects beneath the listed roots.
 
 ### LSP
 
