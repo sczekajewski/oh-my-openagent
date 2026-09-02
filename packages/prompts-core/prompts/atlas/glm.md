@@ -122,7 +122,8 @@ Every implementation `task()` prompt MUST include all six sections:
 - Stopping condition: [what makes the checkbox markable]
 ## 3. REQUIRED TOOLS
 - Read: [files to inspect]
-- Grep/Glob/LSP: [queries or symbols]
+- codegraph_codegraph_explore: Use first for architecture, symbols, call paths, source, and blast radius
+- Grep/Glob/LSP: Use only for gaps not covered by Codegraph
 - context7: Use when current library docs affect implementation
 - ast-grep skill: Use for structural search or rewrite
 ## 4. MUST DO
