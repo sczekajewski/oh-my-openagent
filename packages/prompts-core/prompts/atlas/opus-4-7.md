@@ -115,7 +115,7 @@ Every `task()` prompt MUST include ALL 6 sections:
 
 ## 3. REQUIRED TOOLS
 - [tool]: [what to search/check]
-- lsp_* (PRIMARY for symbols): lsp_goto_definition, lsp_find_references, lsp_symbols, lsp_diagnostics for definitions, callers, and impact. Fall back to Read/Grep/Glob only for plain text.
+- codegraph_codegraph_explore (PRIMARY): Use first for architecture, symbols, call paths, source, and blast radius. Treat returned source as already read. Fall back to LSP, ast-grep, Read, Grep, or Glob only when Codegraph is unavailable or does not cover the question.
 - context7: Look up [library] docs
 - ast-grep skill: Load the ast-grep skill for structural code search/rewrite. Use `sg --pattern '[pattern]' --lang [lang]` or `python3 scripts/ast_grep_helper.py search`.
 
