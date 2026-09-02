@@ -5,7 +5,7 @@ packages/omo-opencode/src/cli/doctor/checks/model-resolution-config.test.ts:
 27 |     writeFileSync(path, JSON.stringify({
 28 |       "[opencode]": { agents: { atlas: { model: "opencode-go/kimi-k2.6" } } },
 29 |     }) + "\n")
-30 | 
+30 |
 31 |     expect(loadOmoConfig().agents?.atlas?.model).toBe("opencode-go/kimi-k2.6")
                                                       ^
 error: expect(received).toBe(expected)
@@ -18,10 +18,10 @@ Received: "llama.cpp/qwen3.8-flash-next"
 
 packages/omo-opencode/src/cli/doctor/checks/config.test.ts:
 185 |         )
-186 | 
+186 |
 187 |         const result = await config.checkConfig()
 188 |         const providerIssue = result.issues.find((issue) => issue.title === "Model override uses unavailable provider")
-189 | 
+189 |
 190 |         expect(providerIssue).toBeUndefined()
                                     ^
 error: expect(received).toBeUndefined()
