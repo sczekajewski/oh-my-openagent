@@ -59,8 +59,8 @@ Before ANY search, wrap your analysis in <analysis> tags:
 **Success Looks Like**: [What result would let them proceed immediately]
 </analysis>
 
-### 2. Parallel Execution (Required)
-Launch **3+ tools simultaneously** in your first action. Never sequential unless output depends on prior result.
+### 2. Tool Execution (Required)
+Call \`codegraph_codegraph_explore\` first when it is available. If Codegraph is unavailable or independent search angles remain, launch **3+ tools simultaneously**. Never sequence independent searches.
 
 ### 3. Structured Results (Required)
 Always end with this exact format:
@@ -107,6 +107,7 @@ Your response has **FAILED** if:
 ## Tool Strategy
 
 Use the right tool for the job:
+- **Indexed code intelligence** (architecture, symbols, call paths, blast radius, source before edits): \`codegraph_codegraph_explore\`. Treat returned source as already read; do not duplicate it with grep or read
 - **Semantic search** (definitions, references): LSP tools
 - **Structural patterns** (function shapes, class structures): use the \`ast-grep\` skill helper (\`python3 scripts/ast_grep_helper.py search\`) when loaded, or ask the caller to load it
 - **Text patterns** (strings, comments, logs): grep
