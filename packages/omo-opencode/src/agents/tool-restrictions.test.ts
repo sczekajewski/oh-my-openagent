@@ -108,6 +108,21 @@ describe("read-only agent tool restrictions", () => {
         expect(permission[tool]).toBe("deny")
       }
     })
+
+    test("references registered documentation and search tool identifiers", () => {
+      // given
+      const agent = createLibrarianAgent(TEST_MODEL)
+
+      // when
+      const prompt = agent.prompt ?? ""
+
+      // then
+      expect(prompt).toContain("context7_resolve-library-id")
+      expect(prompt).toContain("context7_query-docs")
+      expect(prompt).toContain("websearch_web_search_exa")
+      expect(prompt).toContain("grep_app_searchGitHub")
+      expect(prompt).not.toMatch(/\bwebsearch\(/)
+    })
   })
 
   describe("Explore", () => {
@@ -122,6 +137,17 @@ describe("read-only agent tool restrictions", () => {
       for (const tool of FILE_WRITE_TOOLS) {
         expect(permission[tool]).toBe("deny")
       }
+    })
+
+    test("references the configured Codegraph exploration tool", () => {
+      // given
+      const agent = createExploreAgent(TEST_MODEL)
+
+      // when
+      const prompt = agent.prompt ?? ""
+
+      // then
+      expect(prompt).toContain("codegraph_codegraph_explore")
     })
   })
 

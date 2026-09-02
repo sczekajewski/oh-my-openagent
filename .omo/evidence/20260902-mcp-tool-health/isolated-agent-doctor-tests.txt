@@ -1,0 +1,58 @@
+bun test v1.3.14 (0d9b296a)
+
+packages/omo-opencode/src/cli/doctor/checks/model-resolution-config.test.ts:
+26 |     mkdirSync(join(path, ".."), { recursive: true })
+27 |     writeFileSync(path, JSON.stringify({
+28 |       "[opencode]": { agents: { atlas: { model: "opencode-go/kimi-k2.6" } } },
+29 |     }) + "\n")
+30 |
+31 |     expect(loadOmoConfig().agents?.atlas?.model).toBe("opencode-go/kimi-k2.6")
+                                                      ^
+error: expect(received).toBe(expected)
+
+Expected: "opencode-go/kimi-k2.6"
+Received: "llama.cpp/qwen3.8-flash-next"
+
+      at <anonymous> (/home/szymon/omo-local-model-harness/oh-my-openagent-mcp-tool-health/packages/omo-opencode/src/cli/doctor/checks/model-resolution-config.test.ts:31:50)
+(fail) model-resolution-config > #given a user omo config #when loading model settings #then reads its opencode view [7.02ms]
+
+packages/omo-opencode/src/cli/doctor/checks/config.test.ts:
+185 |         )
+186 |
+187 |         const result = await config.checkConfig()
+188 |         const providerIssue = result.issues.find((issue) => issue.title === "Model override uses unavailable provider")
+189 |
+190 |         expect(providerIssue).toBeUndefined()
+                                    ^
+error: expect(received).toBeUndefined()
+
+Received: {
+  title: "Model override uses unavailable provider",
+  description: "Provider(s) not found in OpenCode model cache: llama.cpp",
+  severity: "warning",
+  affects: [ "model resolution" ],
+}
+
+      at <anonymous> (/home/szymon/omo-local-model-harness/oh-my-openagent-mcp-tool-health/packages/omo-opencode/src/cli/doctor/checks/config.test.ts:190:31)
+(fail) config check > checkConfig > does not flag configured custom providers as unavailable when they exist in opencode.json [7.45ms]
+
+packages/omo-opencode/src/cli/doctor/checks/model-resolution.test.ts:
+275 |       expect(details.some((d) => d.includes("Configured Models"))).toBe(true)
+276 |       expect(details.some((d) => d.includes("Agents:"))).toBe(true)
+277 |       expect(details.some((d) => d.includes("Categories:"))).toBe(true)
+278 |       // Should have legend
+279 |       expect(details.some((d) => d.includes("user override"))).toBe(true)
+280 |       expect(details.some((d) => d.includes("capabilities: snapshot-backed"))).toBe(true)
+                                                                                     ^
+error: expect(received).toBe(expected)
+
+Expected: true
+Received: false
+
+      at <anonymous> (/home/szymon/omo-local-model-harness/oh-my-openagent-mcp-tool-health/packages/omo-opencode/src/cli/doctor/checks/model-resolution.test.ts:280:80)
+(fail) model-resolution check > checkModelResolution > includes resolution details in verbose mode details array [7.08ms]
+
+ 481 pass
+ 3 fail
+ 1293 expect() calls
+Ran 484 tests across 57 files. [2.12s]

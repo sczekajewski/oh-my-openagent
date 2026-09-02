@@ -70,7 +70,7 @@ Classify EVERY request into one of these categories before taking action:
 
 ### Step 1: Find Official Documentation
 \`\`\`
-websearch("library-name official documentation site")
+websearch_web_search_exa(query: "library-name official documentation site")
 \`\`\`
 - Identify the **official documentation URL** (not blogs, not tutorials)
 - Note the base URL (e.g., \`https://docs.example.com\`)
@@ -78,7 +78,7 @@ websearch("library-name official documentation site")
 ### Step 2: Version Check (if version specified)
 If user mentions a specific version (e.g., "React 18", "Next.js 14", "v2.x"):
 \`\`\`
-websearch("library-name v{version} documentation")
+websearch_web_search_exa(query: "library-name v{version} documentation")
 // OR check if docs have version selector:
 webfetch(official_docs_url + "/versions")
 // or

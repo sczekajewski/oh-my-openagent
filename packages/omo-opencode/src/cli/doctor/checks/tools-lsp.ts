@@ -1,3 +1,9 @@
+import {
+  createStandaloneMcpRequestContext,
+  getAllServers,
+  runWithRequestContext,
+  type ServerStatus,
+} from "@oh-my-opencode/lsp-core"
 import { createLspMcpConfig } from "../../../mcp/lsp"
 import { validatePluginConfig } from "../../../config/validate"
 
@@ -8,6 +14,7 @@ type OmoConfigForDoctor = {
 type InstalledLspServersOptions = {
   readonly cwd?: string
   readonly homeDir?: string
+  readonly getServers?: () => ServerStatus[]
 }
 
 function isLspMcpDisabled(options: InstalledLspServersOptions): boolean {
@@ -24,6 +31,18 @@ export function getInstalledLspServers(options: InstalledLspServersOptions = {})
   }
 
   const lspMcpConfig = createLspMcpConfig({ cwd: options.cwd })
+  if (!lspMcpConfig.enabled) {
+    return []
+  }
 
-  return lspMcpConfig.enabled ? [{ id: "lsp-tools-mcp", extensions: ["*"] }] : []
+  const context = createStandaloneMcpRequestContext({
+    cwd: lspMcpConfig.cwd,
+    env: lspMcpConfig.environment,
+    homeDir: options.homeDir,
+  })
+  const servers = runWithRequestContext(context, options.getServers ?? getAllServers)
+
+  return servers
+    .filter((server) => server.installed && !server.disabled)
+    .map(({ id, extensions }) => ({ id, extensions }))
 }
