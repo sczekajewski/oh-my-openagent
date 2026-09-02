@@ -10,6 +10,7 @@ import {
   createModelFallbackHook,
   createAnthropicContextWindowLimitRecoveryHook,
   createAutoUpdateCheckerHook,
+  createCodegraphBootstrapHook,
   createAstGrepSgProvisionHook,
   createAgentUsageReminderHook,
   createNonInteractiveEnvHook,
@@ -46,6 +47,7 @@ export type SessionHooks = {
   modelFallback: ReturnType<typeof createModelFallbackHook> | null
   anthropicContextWindowLimitRecovery: ReturnType<typeof createAnthropicContextWindowLimitRecoveryHook> | null
   autoUpdateChecker: ReturnType<typeof createAutoUpdateCheckerHook> | null
+  codegraphBootstrap: ReturnType<typeof createCodegraphBootstrapHook> | null
   astGrepSgProvision: ReturnType<typeof createAstGrepSgProvisionHook> | null
   agentUsageReminder: ReturnType<typeof createAgentUsageReminderHook> | null
   nonInteractiveEnv: ReturnType<typeof createNonInteractiveEnvHook> | null
@@ -139,6 +141,10 @@ export function createSessionHooks(args: {
           autoUpdate: pluginConfig.auto_update ?? true,
           modelCapabilities: pluginConfig.model_capabilities,
         }))
+    : null
+
+  const codegraphBootstrap = isHookEnabled("codegraph-bootstrap")
+    ? safeHook("codegraph-bootstrap", () => createCodegraphBootstrapHook(ctx, pluginConfig.codegraph))
     : null
 
   const astGrepSgProvision = isHookEnabled("ast-grep-sg-provision")
@@ -236,6 +242,7 @@ export function createSessionHooks(args: {
     modelFallback,
     anthropicContextWindowLimitRecovery,
     autoUpdateChecker,
+    codegraphBootstrap,
     astGrepSgProvision,
     agentUsageReminder,
     nonInteractiveEnv,
