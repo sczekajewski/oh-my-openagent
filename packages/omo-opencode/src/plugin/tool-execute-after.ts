@@ -1,4 +1,5 @@
 import { recoverToolMetadata } from "../features/tool-metadata-store"
+import { buildCodegraphInitGuidanceForToolResult } from "@oh-my-opencode/utils"
 import type { CreatedHooks } from "../create-hooks"
 import { log as defaultLog } from "../shared/logger"
 import type { PluginContext } from "./types"
@@ -35,8 +36,30 @@ function getMetadataString(metadata: Record<string, unknown> | undefined, keys: 
   return undefined
 }
 
+function getPluginDirectory(ctx: PluginContext): string | null {
+  if (typeof ctx === "object" && ctx !== null && "directory" in ctx && typeof ctx.directory === "string") {
+    return ctx.directory
+  }
+
+  return null
+}
+
 function expectsRecoverableMetadata(tool: string): boolean {
   return METADATA_LINKED_TOOLS.has(tool)
+}
+
+function appendCodegraphInitGuidance(
+  input: ToolExecuteAfterInput,
+  output: ToolExecuteAfterOutput,
+  cwd: string | null,
+): void {
+  const guidance = buildCodegraphInitGuidanceForToolResult({
+    cwd: cwd ?? undefined,
+    toolName: input.tool,
+    toolOutput: output.output,
+  })
+  if (guidance === null || output.output.includes(guidance)) return
+  output.output = `${output.output}\n\n${guidance}`
 }
 
 export function createToolExecuteAfterHandler(args: {
@@ -47,7 +70,7 @@ export function createToolExecuteAfterHandler(args: {
   input: ToolExecuteAfterInput,
   output: ToolExecuteAfterOutput | undefined,
 ) => Promise<void> {
-  const { hooks } = args
+  const { ctx, hooks } = args
   const log = args.log ?? defaultLog
 
   // OpenCode injects tool call ids into execute() context and after-hook input via undocumented runtime fields.
@@ -58,6 +81,8 @@ export function createToolExecuteAfterHandler(args: {
     output: ToolExecuteAfterOutput | undefined,
   ): Promise<void> => {
     if (!output) return
+
+    appendCodegraphInitGuidance(input, output, getPluginDirectory(ctx))
 
     const hookInput = {
       tool: input.tool,
