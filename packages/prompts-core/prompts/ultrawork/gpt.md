@@ -67,7 +67,7 @@ Before acting, survey the skills available in this system: scan their descriptio
 
 <tool_usage_rules>
 - Prefer tools over internal knowledge for fresh or user-specific data
-- For how/where/what/flow questions and before edits: LSP for symbols, the ast-grep skill for structure, Grep/Read for text.
+- For how/where/what/flow questions and before edits: use `codegraph_codegraph_explore` first; use LSP, ast-grep, Grep, or Read only for gaps not covered by Codegraph.
 - Parallelize independent reads (read_file, grep, explore, librarian) to reduce latency
 - After any write/update, briefly restate: What changed, Where (path), Follow-up needed
 </tool_usage_rules>
@@ -78,7 +78,7 @@ Before acting, survey the skills available in this system: scan their descriptio
 
 | Track | Tools | Speed | Purpose |
 |-------|-------|-------|---------|
-| **Direct** | LSP, ast-grep skill (`sg`), Grep, Read | Instant | Quick wins, known locations |
+| **Direct** | codegraph_codegraph_explore (primary), LSP, ast-grep skill (`sg`), Grep, Read | Instant | Quick wins, known locations |
 | **Background** | explore, librarian agents | Async | Deep search, external docs |
 
 **ALWAYS run both tracks in parallel:**

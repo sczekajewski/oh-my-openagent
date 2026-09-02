@@ -150,6 +150,8 @@ task(task_id="ses_abc123", load_skills=[], run_in_background=false, prompt="Here
 | Hard problem (non-conventional) | task(category="artistry", load_skills=[...], run_in_background=true) | Different approach needed |
 | Implementation | task(category="...", load_skills=[...], run_in_background=true) | Domain-optimized models |
 
+**CODEGRAPH-FIRST:** Use `codegraph_codegraph_explore` before grep, read, or delegated exploration for codebase architecture, symbols, flows, source, and blast radius. Use fallback tools only for gaps not covered by Codegraph.
+
 **CATEGORY + SKILL DELEGATION:**
 ```
 // Frontend work
