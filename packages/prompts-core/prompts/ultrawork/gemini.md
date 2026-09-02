@@ -177,6 +177,8 @@ task(subagent_type="plan", load_skills=[], run_in_background=false, prompt="<gat
 | Hard problem (non-conventional) | task(category="artistry", load_skills=[...], run_in_background=true) | Different approach needed |
 | Implementation | task(category="...", load_skills=[...], run_in_background=true) | Domain-optimized models |
 
+**CODEGRAPH-FIRST:** Use `codegraph_codegraph_explore` before grep, read, or delegated exploration for codebase architecture, symbols, flows, source, and blast radius. Use fallback tools only for gaps not covered by Codegraph.
+
 **YOU SHOULD ONLY DO IT YOURSELF WHEN:**
 - Task is trivially simple (1-2 lines, obvious change)
 - You have ALL context already loaded

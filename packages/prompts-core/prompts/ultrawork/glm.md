@@ -110,6 +110,7 @@ Survey applicable skills before working raw. Use only resources that fit the tas
 
 <tool_usage_rules>
 - Use tools for user-specific facts, file contents, repo state, and verification.
+- Use `codegraph_codegraph_explore` first for codebase architecture, symbols, flows, source, and blast radius; use grep, read, LSP, or delegated exploration only for gaps not covered by Codegraph.
 - Parallelize independent reads and searches.
 - When a delegated search is running, do not duplicate that same search yourself.
 - Continue only with non-overlapping work while background agents run.
